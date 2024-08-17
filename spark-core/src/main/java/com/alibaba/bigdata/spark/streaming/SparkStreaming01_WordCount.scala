@@ -14,11 +14,27 @@ object SparkStreaming01_WordCount {
 
     println("===============================")
     //TODO 逻辑处理
+    //获取端口数据
+    val lines = ssc.socketTextStream("localhost", 9999)
+
+    val words = lines.flatMap(_.split(" "))
+
+    val wordToOne = words.map((_, 1))
+
+    val wordToCount = wordToOne.reduceByKey(_ + _)
+
+    wordToCount.print()
 
 
+//
+//    //TODO 关闭环境
+//    ssc.stop()
 
-    //TODO 关闭环境
-    ssc.stop()
+    //1、启动采集器
+    ssc.start()
+    //2、等待采集器的关闭
+    ssc.awaitTermination()
+
   }
 
 }
