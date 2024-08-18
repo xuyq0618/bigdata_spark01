@@ -12,6 +12,7 @@ object SparkStreaming05_State {
     //TODO 创建环境对象
     val sparkConf = new SparkConf().setMaster("local[*]").setAppName("SparkStreaming")
     val ssc = new StreamingContext(sparkConf, Seconds(3))
+    //有状态的Dstream需要设置检查点路径
     ssc.checkpoint("cp1")
 
     //无状态数据操作，只对当前采集周期内的数据进行处理
